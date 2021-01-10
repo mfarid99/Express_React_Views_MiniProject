@@ -27,15 +27,31 @@ db.on( 'open', ()=> {
 
 const {Schema, model} = mongoose
 
+const BoxerSchema = new Schema ({
+    name: String, 
+    age: String,
+    weight: String,
+    active: String, 
+    titles: String, 
+
+})
+
+const Boxer = model('boxer', BoxerSchema);
 //Routes
 
 //Main Page
 app.get('/', (req, res)=> {
-    res.render('Index')
+    Boxer.find({}, (err, boxers)=> {
+        res.render('Index', {boxers})
+
+    })
 })
 
 app.post('/', (req, res)=> {
-    res.redirect('/')
+    Boxer.create(req.body, (err, boxer) => {
+        res.redirect('/')
+
+    })
 })
 //Listener
 
